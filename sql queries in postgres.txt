@@ -1,0 +1,157 @@
+
+
+Time: 0.538 ms
+npci_db=# create table student(roll_no serial primary key, name varchar(15), dob date);
+CREATE TABLE
+Time: 5.087 ms
+npci_db=# insert into student(name, dob) values('Mark', '2000-10-22');
+INSERT 0 1
+Time: 3.110 ms
+npci_db=# insert into student(name, dob) values('John', '1999-11-25');
+INSERT 0 1
+Time: 2.175 ms
+npci_db=# select upper(name) as NameInUpper, lower(name) as NameInLower from student;
+ nameinupper | nameinlower
+-------------+-------------
+ MARK        | mark
+ JOHN        | john
+(2 rows)
+
+
+Time: 0.621 ms
+npci_db=# select upper(name) as NameInUpper, lower(name) as NameInLower, dob from student;
+ nameinupper | nameinlower |    dob
+-------------+-------------+------------
+ MARK        | mark        | 2000-10-22
+ JOHN        | john        | 1999-11-25
+(2 rows)
+
+
+Time: 0.538 ms
+npci_db=# select upper(name) as NameInUpper, lower(name) as NameInLower, to_char(dob,'dd/MM/yyyy') from student;
+ nameinupper | nameinlower |  to_char
+-------------+-------------+------------
+ MARK        | mark        | 22/10/2000
+ JOHN        | john        | 25/11/1999
+(2 rows)
+
+
+Time: 1.114 ms
+npci_db=# select count(name) from student;
+ count
+-------
+     2
+(1 row)
+
+
+Time: 0.475 ms
+npci_db=# select * from student;
+ roll_no | name |    dob
+---------+------+------------
+       1 | Mark | 2000-10-22
+       2 | John | 1999-11-25
+(2 rows)
+
+
+Time: 0.298 ms
+npci_db=# create table marks(marks_id int, physics float, chemistry float, maths float, roll int, foreign key(roll) refe
+rences student(roll_no));
+CREATE TABLE
+Time: 8.168 ms
+npci_db=# insert into marks values(1000, 85, 87, 89, 1);
+INSERT 0 1
+Time: 3.285 ms
+npci_db=# insert into marks values(1001, 89, 99, 89, 2);
+INSERT 0 1
+Time: 2.187 ms
+npci_db=# select * from students;
+ERROR:  relation "students" does not exist
+LINE 1: select * from students;
+                      ^
+Time: 3.919 ms
+npci_db=# select * from student;
+ roll_no | name |    dob
+---------+------+------------
+       1 | Mark | 2000-10-22
+       2 | John | 1999-11-25
+(2 rows)
+
+
+Time: 0.304 ms
+npci_db=# select * from marks;
+ marks_id | physics | chemistry | maths | roll
+----------+---------+-----------+-------+------
+     1000 |      85 |        87 |    89 |    1
+     1001 |      89 |        99 |    89 |    2
+(2 rows)
+
+
+Time: 0.421 ms
+npci_db=# select roll_no, roll, name, physics, chemistry, maths from student join marks on roll_no=roll;
+ roll_no | roll | name | physics | chemistry | maths
+---------+------+------+---------+-----------+-------
+       1 |    1 | Mark |      85 |        87 |    89
+       2 |    2 | John |      89 |        99 |    89
+(2 rows)
+
+
+Time: 0.705 ms
+npci_db=# select roll_no, roll, name, physics, chemistry, maths, (physics+chemistry+maths) as 'Total' from student join marks on roll_no=roll;
+ERROR:  syntax error at or near "'Total'"
+LINE 1: ...s, chemistry, maths, (physics+chemistry+maths) as 'Total' fr...
+                                                             ^
+Time: 5.116 ms
+npci_db=# select roll_no, roll, name, physics, chemistry, maths, (physics+chemistry+maths) as Total from student join marks on roll_no=roll;
+ roll_no | roll | name | physics | chemistry | maths | total
+---------+------+------+---------+-----------+-------+-------
+       1 |    1 | Mark |      85 |        87 |    89 |   261
+       2 |    2 | John |      89 |        99 |    89 |   277
+(2 rows)
+
+
+Time: 0.571 ms
+npci_db=# select roll_no, roll, name, physics, chemistry, maths, (physics+chemistry+maths) as Total, (physics+chemistry+maths)/3 as Average from student join marks on roll_no=roll;
+ roll_no | roll | name | physics | chemistry | maths | total |      average
+---------+------+------+---------+-----------+-------+-------+-------------------
+       1 |    1 | Mark |      85 |        87 |    89 |   261 |                87
+       2 |    2 | John |      89 |        99 |    89 |   277 | 92.33333333333333
+(2 rows)
+
+
+Time: 0.769 ms
+npci_db=# select roll_no, roll, name, physics, chemistry, maths, (physics+chemistry+maths) as Total, round((physics+chemistry+maths)/3,0) as Average from student join marks on roll_no=roll;
+ERROR:  function round(double precision, integer) does not exist
+LINE 1: ...istry, maths, (physics+chemistry+maths) as Total, round((phy...
+                                                             ^
+HINT:  No function matches the given name and argument types. You might need to add explicit type casts.
+Time: 8.052 ms
+npci_db=# select roll_no, roll, name, physics, chemistry, maths, (physics+chemistry+maths) as Total, round((physics+chemistry+maths)/3) as Average from student join marks on roll_no=roll;
+ roll_no | roll | name | physics | chemistry | maths | total | average
+---------+------+------+---------+-----------+-------+-------+---------
+       1 |    1 | Mark |      85 |        87 |    89 |   261 |      87
+       2 |    2 | John |      89 |        99 |    89 |   277 |      92
+(2 rows)
+
+
+Time: 0.463 ms
+npci_db=# create view student_result as (select roll_no, roll, name, physics, chemistry, maths, (physics+chemistry+maths) as Total, round((physics+chemistry+maths)/3) as Average from student join marks on roll_no=roll);
+CREATE VIEW
+Time: 3.420 ms
+npci_db=# select * from student_result;
+ roll_no | roll | name | physics | chemistry | maths | total | average
+---------+------+------+---------+-----------+-------+-------+---------
+       1 |    1 | Mark |      85 |        87 |    89 |   261 |      87
+       2 |    2 | John |      89 |        99 |    89 |   277 |      92
+(2 rows)
+
+
+Time: 0.587 ms
+npci_db=# create index student_rollno_index on student(roll_no);
+CREATE INDEX
+Time: 4.779 ms
+npci_db=# select * from student;
+ roll_no | name |    dob
+---------+------+------------
+       1 | Mark | 2000-10-22
+       2 | John | 1999-11-25
+(2 rows)
