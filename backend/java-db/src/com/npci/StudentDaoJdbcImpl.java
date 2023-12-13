@@ -1,6 +1,7 @@
 package com.npci;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -8,7 +9,20 @@ import java.util.List;
 
 public class StudentDaoJdbcImpl {
 	public int save(Student student) { 
-		return 0; // change it later
+		int status = 0;
+		try {
+			Connection connection = DBUtil.getConnection();
+			String INSERT_QUERY = "insert into student values(?, ?, ?)";
+			PreparedStatement statement = connection.prepareStatement(INSERT_QUERY);
+			statement.setInt(1, student.getRollNo());
+			statement.setString(2, student.getName());
+			statement.setDate(3, Date.valueOf(student.getDob())); // import java.sql.Date
+			status = statement.executeUpdate();
+			DBUtil.close(connection, statement, null);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return status; // change it later
 	} 
 	public List<Student> findAll() {
 		List<Student> students = new ArrayList<>();
