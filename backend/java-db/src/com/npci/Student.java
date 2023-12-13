@@ -2,9 +2,20 @@ package com.npci;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "student") // optional when class name & table name is same
 public class Student {
+	@Id // marking primary key column
+	@Column(name = "roll_no")
 	private int rollNo;
+	@Column(name = "name") // optional when property & column names are same
 	private String name;
+	@Column(name = "dob") // optional
 	private LocalDate dob;
 	public Student() {
 		super();
