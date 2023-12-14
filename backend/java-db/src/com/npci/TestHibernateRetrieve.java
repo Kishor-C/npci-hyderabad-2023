@@ -1,6 +1,5 @@
 package com.npci;
 
-import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,6 +19,8 @@ public class TestHibernateRetrieve {
 		//retrieve a Student: internally takes care of generating query & type conversion
 		Student student = session.get(Student.class, 2); // gets the student having roll_no = value
 		System.out.println(student);
+		
+		
 		// close the Session & SessionFactory
 		session.close();
 		factory.close();

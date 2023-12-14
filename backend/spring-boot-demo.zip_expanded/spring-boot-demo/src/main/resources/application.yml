@@ -1,0 +1,3 @@
+# server.port is used to change the port number
+server:
+  port: 8082

@@ -7,7 +7,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDaoJdbcImpl {
+public class StudentDaoJdbcImpl implements StudentDao {
+	@Override
 	public int save(Student student) { 
 		int status = 0;
 		try {
@@ -24,6 +25,7 @@ public class StudentDaoJdbcImpl {
 		}
 		return status; // change it later
 	} 
+	@Override
 	public List<Student> findAll() {
 		List<Student> students = new ArrayList<>();
 		// select query must be used here 
@@ -46,6 +48,7 @@ public class StudentDaoJdbcImpl {
 		}
 		return students; // change it later
 	}
+	@Override
 	public Student find(int rollNo) {
 		return null; // change it later
 	}

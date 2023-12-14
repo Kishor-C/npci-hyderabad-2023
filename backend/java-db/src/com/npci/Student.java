@@ -4,15 +4,23 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "student") // optional when class name & table name is same
 public class Student {
+	
 	@Id // marking primary key column
 	@Column(name = "roll_no")
+	// generator name can be any thing ex: abc, postgres an so on
+	@GeneratedValue(generator = "postgres_seq", strategy = GenerationType.SEQUENCE)
+	@SequenceGenerator(name = "postgres_seq", sequenceName = "student_seq", allocationSize = 1)
 	private int rollNo;
+	
 	@Column(name = "name") // optional when property & column names are same
 	private String name;
 	@Column(name = "dob") // optional

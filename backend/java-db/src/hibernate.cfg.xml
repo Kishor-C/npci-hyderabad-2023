@@ -24,6 +24,7 @@
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="com.npci.Student"/>
+        
 
     </session-factory>
 

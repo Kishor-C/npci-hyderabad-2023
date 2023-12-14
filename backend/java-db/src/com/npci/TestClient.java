@@ -9,7 +9,7 @@ public class TestClient {
 		// 1: store 2: find all 3: find by id 4: update 5: exit
 		// the below statement is tightly coupled code because we are not using interface & factory
 		// pattern
-		StudentDaoJdbcImpl jdbc = new StudentDaoJdbcImpl();
+		StudentDao jdbc = new StudentDaoJdbcImpl();
 		
 		//storing a Student
 		Student student = new Student(16, "Virat", LocalDate.parse("1988-10-25"));
