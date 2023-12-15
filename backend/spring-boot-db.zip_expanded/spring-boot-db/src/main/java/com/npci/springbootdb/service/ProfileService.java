@@ -15,5 +15,8 @@ public interface ProfileService {
 
 	//get an entity based on id, else throw exception
 	Profile fetchProfile(int id) throws ProfileNotFoundException;
+	
+	//update an entity based on id, parameter must be id and profile
+	Profile updateProfile(int id, Profile profile)throws ProfileNotFoundException;
 
 }

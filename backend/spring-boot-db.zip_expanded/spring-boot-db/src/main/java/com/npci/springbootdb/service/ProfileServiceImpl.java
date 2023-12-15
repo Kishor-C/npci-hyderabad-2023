@@ -39,4 +39,17 @@ public class ProfileServiceImpl implements ProfileService {
 		// orEleseThrow checks internally for null, it either returns the data or throws exception
 		return option.orElseThrow(()->new ProfileNotFoundException("Profile with an id "+id+" not found"));
 	}
+	@Override
+	public Profile updateProfile(int id, Profile profile) throws ProfileNotFoundException {
+		Profile profile2 = fetchProfile(id);
+		if(profile.getBirthday() != null)
+		profile2.setBirthday(profile.getBirthday());
+		if(profile.getName() != null)
+		profile2.setName(profile.getName());
+		if(profile.getPassword() != null)
+		profile2.setPassword(profile.getPassword());
+		if(profile.getPhone() != 0)
+		profile2.setPhone(profile.getPhone());
+		return dao.save(profile2);
+	}
 }

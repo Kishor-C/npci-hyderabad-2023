@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,8 +45,19 @@ public class ProfileController {
 			error.put("error", message);
 			return ResponseEntity.status(404).body(error); // map will be converted to JSON
 		}
+	} 
+	@PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> updateProfile(@PathVariable("id") int id, @RequestBody Profile profile) {
+		try {
+			return ResponseEntity.status(200).body(profileService.updateProfile(id, profile));
+		} catch(ProfileNotFoundException e) {
+			String message = e.getMessage();//every exception class has getMessage()
+			Map<String, String> error = new HashMap<>();
+			error.put("error", message);
+			return ResponseEntity.status(404).body(error); // map will be converted to JSON
+		}
 	}
-	// find profile by id
+	
 	@GetMapping(path = "/{id}")
 	public ResponseEntity<Object> fetchById(@PathVariable("id") int id) {
 		try {
@@ -58,4 +70,5 @@ public class ProfileController {
 			return ResponseEntity.status(404).body(error); // map will be converted to JSON
 		}
 	}
+	
 }
