@@ -1,5 +1,7 @@
 package com.npci.springbootdb.dao;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,4 +25,5 @@ public interface ProfileRepository extends JpaRepository<Profile, Integer>{
 	  * @Query("update Profile p set p.password = ?2 where p.phone = ?1
 	  * public Profile updatePasswordByPhone(long phone, String password)
 	  */
+	 
 }

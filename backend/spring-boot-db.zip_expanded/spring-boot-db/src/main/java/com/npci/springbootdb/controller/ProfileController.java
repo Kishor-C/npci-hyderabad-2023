@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.npci.springbootdb.entities.Contact;
 import com.npci.springbootdb.entities.Profile;
 import com.npci.springbootdb.exceptions.ProfileNotFoundException;
 import com.npci.springbootdb.service.ProfileService;
@@ -69,6 +70,19 @@ public class ProfileController {
 			error.put("error", message);
 			return ResponseEntity.status(404).body(error); // map will be converted to JSON
 		}
+	}
+	// add contacts for a profile
+	@PostMapping(path = "/contact/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> addContact(@RequestBody Contact contact, 
+			@PathVariable("id") int profileId) {
+		Contact contact2 = profileService.addContact(contact, profileId);
+		return ResponseEntity.status(201).body(contact2);
+	}
+	// list contacts for a profile
+	@GetMapping(path = "/contact/{id}")
+	public ResponseEntity<Object> fetchContactsById(@PathVariable("id") int id) {
+		List<Contact> contacts = profileService.getContacts(id);
+		return ResponseEntity.status(200).body(contacts);
 	}
 	
 }

@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.npci.springbootdb.dao.ContactRepository;
 import com.npci.springbootdb.dao.ProfileRepository;
+import com.npci.springbootdb.entities.Contact;
 import com.npci.springbootdb.entities.Profile;
 import com.npci.springbootdb.exceptions.ProfileNotFoundException;
 
@@ -15,6 +17,9 @@ public class ProfileServiceImpl implements ProfileService {
 	// inject DAO layer to the service
 	@Autowired
 	private ProfileRepository dao;
+	// inject Contact DAO to the service
+	@Autowired
+	private ContactRepository contactDao;
 	//saving the entity
 	@Override
 	public Profile store(Profile profile) {
@@ -51,5 +56,23 @@ public class ProfileServiceImpl implements ProfileService {
 		if(profile.getPhone() != 0)
 		profile2.setPhone(profile.getPhone());
 		return dao.save(profile2);
+	}
+	@Override
+	public Contact addContact(Contact contact, int profileId) {
+		contact.setProfileRef(profileId); // contact table must know that it is belonging to which profile
+		return contactDao.save(contact);
+	}
+	@Override
+	public List<Contact> getContacts(int profileId) {
+		Profile profile = dao.findById(profileId).orElse(null);// returns profile or null
+		if(profile != null) {
+			return profile.getContacts();
+		}
+		return null;
+	}
+	@Override
+	public void deleteContact(int contactId) {
+		// TODO Auto-generated method stub
+		
 	}
 }
