@@ -8,6 +8,8 @@ import com.npci.secondms.beans.Account;
 import com.npci.secondms.beans.Wallet;
 import com.npci.secondms.clients.AccountClient;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @Service
 public class WalletServiceImpl {
 	// autowire the RestTemplate
@@ -18,6 +20,8 @@ public class WalletServiceImpl {
 	@Autowired
 	private AccountClient client;
 	
+	// name is used to configure the properties
+	@CircuitBreaker(name = "walletInstance", fallbackMethod = "getAlternateWallet")
 	// method calls the remote service
 	public Wallet getWallet(long account) {
 		System.out.println("---- Method making remote call ----");
@@ -33,6 +37,13 @@ public class WalletServiceImpl {
 		wallet.setWalletId(accountDetails.getAccount() + 1);
 		// add walletAmount with account balance, default walletAmount is 500
 		wallet.setTotalAmount(accountDetails.getBalance()+wallet.getWalletAmount());
+		return wallet;
+	}
+	// a fallback method with Throwable argument
+	public Wallet getAlternateWallet(long account, Throwable t) {
+		System.out.println("--- Method making alternate calls ----");
+		// this can make calls to another microservice if necessary
+		Wallet wallet = new Wallet();
 		return wallet;
 	}
 }
