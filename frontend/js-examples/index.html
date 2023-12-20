@@ -24,8 +24,39 @@
         <img src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSxOey529V1gVi81xvAQWMHV06YQQ4nXfPjoQ&usqp=CAU" width = "150" height = "150">
     </div>
     <!-- A button that invokes testCallback -->
-    <button onclick = 'fetchUsersWithPromise()'>Test Callback</button>
+    <button onclick = 'fetchUsersWithAsyncAwait()'>Test Callback</button>
     <script type = 'text/javascript'>
+        // js arrays 
+        let users = [
+            {id : 100, name : "Alex", address: {state: "KA", city: "BLR"}},
+            {id : 200, name : "Brad"},
+            {id : 300, name : "Charles", address: {state: "TS", city: "HYD"}},
+        ];
+        //handling the nested objects when they are not present will give undefined 
+        // this leads to an error in javascript
+        // hence we have optional chain(?.) that access the property only if present
+        console.log(users[1].address?.state);
+        console.log(users[2].address?.state);
+        // string padding: it is used to add some characters before or after a string
+        let start = "1234".padStart(6, '0'); // adds 0 in the beginning until the size=10
+        let end = "1234".padEnd(10, '*'); // add * at the end
+
+        console.log(start);
+        console.log(end);
+
+
+        // Promises with async/await
+        async function fetchUsersWithAsyncAwait() {
+            let url = 'https://jsonplaceholder.typicode.com/users';
+            let res = await fetch(url); // it gives response and next line runs only after getting response
+            let value = await res.json(); // next line runs only after getting json value
+            let ele = document.getElementById('a');
+            let content = '';
+            for(let i = 0; i < 3; i++) {
+                    content = content + `<p>Id = ${value[i].id}, Name = ${value[i].name}</p>`;
+            }
+            ele.innerHTML = content;
+        }
         // fetch() is a function to send asynchronous calls but it returns promise
         function fetchUsersWithPromise() {
             let url = 'https://jsonplaceholder.typicode.com/users';
@@ -38,6 +69,7 @@
                 }
                 ele.innerHTML = content;
             });
+            // updating DOM doesn't work
         }
 
         /* Activity: create an input box in HTML and enter value between 1 to 10, below the text box
