@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,8 @@ import com.npci.springbootdb.service.ProfileService;
 
 @RestController
 @RequestMapping("/api/profiles")
+// CORS - Cross Origin Resource Sharing - enable CORS for the client applications
+@CrossOrigin(origins = "*")
 public class ProfileController {
 
 	// inject service layer
