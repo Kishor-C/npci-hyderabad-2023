@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { UserProfileList, UserProfileLogin, UserProfileRegistration } from './components/RealProfile';
+import { UserProfileList, UserProfileLogin, UserProfileRegistration, UserProfileSuccess } from './components/RealProfile';
 import { Link, Routes, Route } from 'react-router-dom';
 // <App /> is used in index.js
 function App() {
@@ -14,9 +14,9 @@ function App() {
           <Routes>
             <Route path = '' element = {<UserProfileLogin />}/>
             <Route path = '/register' element = {<UserProfileRegistration />} ></Route>
-            <Route path = '/login' element = {<div>Login under construction</div>} />
+            <Route path = '/login' element = {<UserProfileLogin />} />
             <Route path = '/list' element = {<UserProfileList />} />
-            <Route path = '/success/:id/*' element = {<div>Success under construction</div>} />
+            <Route path = '/success/:id/*' element = {<UserProfileSuccess />} />
           </Routes>
         </div>
       </div>
